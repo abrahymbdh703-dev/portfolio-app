@@ -1,0 +1,52 @@
+@import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&family=Cairo:wght@400;600;700;900&family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --ink-50:#fafaf9; --ink-100:#f5f5f4; --ink-200:#e7e5e4; --ink-300:#d6d3d1; --ink-400:#a8a29e; --ink-500:#78716c; --ink-600:#57534e; --ink-700:#44403c; --ink-800:#292524; --ink-900:#1c1917; --ink-950:#0c0a09;
+  }
+  .dark {
+    --ink-50:#f8fafc; --ink-100:#f1f5f9; --ink-200:#e2e8f0; --ink-300:#cbd5e1; --ink-400:#94a3b8; --ink-500:#64748b; --ink-600:#475569; --ink-700:#334155; --ink-800:#1e293b; --ink-900:#0f172a; --ink-950:#020617;
+  }
+  html { scroll-behavior: smooth; }
+  body { @apply bg-ink-50 text-ink-900 font-sans antialiased; overflow-x: hidden; transition: background-color 0.3s ease, color 0.3s ease; }
+  .dark body { @apply bg-ink-950 text-ink-100; }
+}
+
+@layer utilities {
+  .reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1); }
+  .reveal.is-visible { opacity: 1; transform: translateY(0); }
+  .text-gradient { background-image: linear-gradient(to right,#f98e07,#ffab1f,#14b8a6); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; color:transparent; background-size:200% auto; }
+  .text-gradient-light { background-image: linear-gradient(to right,#dd6c02,#0d9488); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; color:transparent; }
+  .dark .text-gradient-light { background-image: linear-gradient(to right,#ffab1f,#2dd4bf); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; color:transparent; }
+  .glass { background-color: rgba(255,255,255,0.70); backdrop-filter: blur(16px); border: 1px solid var(--ink-200); }
+  .dark .glass { background-color: rgba(15,23,42,0.60); border: 1px solid rgba(255,255,255,0.05); }
+  .card-hover { @apply transition-all duration-500; }
+  .card-hover:hover { border-color: rgba(249,142,7,0.5); background-color: rgba(245,245,244,0.5); }
+  .dark .card-hover:hover { border-color: rgba(249,142,7,0.4); background-color: rgba(30,41,59,0.6); }
+  .glow-border { position: relative; }
+  .glow-border::before { content:''; position:absolute; inset:-1px; border-radius:inherit; padding:1px; background:linear-gradient(135deg,rgba(249,142,7,0.4),rgba(20,184,166,0.4)); -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0); -webkit-mask-composite:xor; mask-composite:exclude; opacity:0; transition:opacity 0.4s ease; pointer-events:none; }
+  .glow-border:hover::before { opacity: 1; }
+}
+
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-track { background: var(--ink-100); }
+.dark ::-webkit-scrollbar-track { background: var(--ink-950); }
+::-webkit-scrollbar-thumb { background: var(--ink-400); border-radius: 9999px; }
+::-webkit-scrollbar-thumb:hover { background: #f98e07; }
+
+.gradient-mesh {
+  background-color: var(--ink-50);
+  background-image: radial-gradient(at 20% 20%,rgba(249,142,7,0.12) 0px,transparent 50%), radial-gradient(at 80% 0%,rgba(20,184,166,0.10) 0px,transparent 50%), radial-gradient(at 40% 80%,rgba(249,142,7,0.06) 0px,transparent 50%), radial-gradient(at 90% 70%,rgba(20,184,166,0.08) 0px,transparent 50%);
+}
+.dark .gradient-mesh {
+  background-color: #020617;
+  background-image: radial-gradient(at 20% 20%,rgba(249,142,7,0.15) 0px,transparent 50%), radial-gradient(at 80% 0%,rgba(20,184,166,0.12) 0px,transparent 50%), radial-gradient(at 40% 80%,rgba(249,142,7,0.08) 0px,transparent 50%), radial-gradient(at 90% 70%,rgba(20,184,166,0.10) 0px,transparent 50%);
+}
+.grid-pattern { background-image: linear-gradient(rgba(0,0,0,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,0.04) 1px,transparent 1px); background-size: 60px 60px; }
+.dark .grid-pattern { background-image: linear-gradient(rgba(255,255,255,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.03) 1px,transparent 1px); }
+
+.cursor-glow { position: fixed; width: 400px; height: 400px; border-radius: 50%; background: radial-gradient(circle,rgba(249,142,7,0.08) 0%,transparent 70%); pointer-events: none; z-index: 1; transform: translate(-50%,-50%); transition: opacity 0.3s ease; mix-blend-mode: screen; }
