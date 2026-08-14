@@ -129,11 +129,9 @@ export default function Catalog({ onSelectCar, selectedCar, onTestDrive }: Catal
       {selectedCar && (
         <CarDetail
           car={selectedCar}
-          onClose={() => onSelectCar(selectedCar)}
+          onClose={() => onSelectCar(null as unknown as Car)}
           onTestDrive={() => {
-            const car = selectedCar;
-            onSelectCar(selectedCar);
-            onTestDrive(car);
+            onTestDrive(selectedCar);
           }}
         />
       )}
