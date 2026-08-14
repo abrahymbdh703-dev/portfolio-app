@@ -1,125 +1,71 @@
-export type PageType = 'home' | 'category' | 'product' | 'search' | 'checkout' | 'cart' | 'account';
-export type Device = 'desktop' | 'mobile';
-export type Tool = 'gtmetrix' | 'pagespeed' | 'lighthouse' | 'manual' | 'devtools';
+export type BodyType = 'sedan' | 'coupe' | 'suv' | 'hatchback' | 'convertible';
+export type FuelType = 'petrol' | 'diesel' | 'electric' | 'hybrid';
+export type Transmission = 'automatic' | 'manual';
+export type ConditionStatus = 'new' | 'used';
 
-export interface Report {
+export interface Car {
   id: string;
-  page_url: string;
-  page_type: PageType;
-  tool: Tool;
-  tested_at: string;
-  device: Device;
-  ttfb_ms: number | null;
-  lcp_ms: number | null;
-  fcp_ms: number | null;
-  cls: number | null;
-  tbt_ms: number | null;
-  fully_loaded_ms: number | null;
-  performance_score: number | null;
-  structure_score: number | null;
-  total_size_kb: number | null;
-  requests: number | null;
-  raw: Record<string, unknown> | null;
-  note: string | null;
-  created_at: string;
-}
-
-export interface DbQuery {
-  id: string;
-  report_id: string | null;
-  sql: string;
-  duration_ms: number;
-  caller: string | null;
-  stack: string | null;
-  query_type: string | null;
-  rows_affected: number | null;
-  is_slow: boolean;
-  created_at: string;
-}
-
-export type ImprovementStatus = 'pending' | 'in-progress' | 'done' | 'skipped';
-export type ImprovementPriority = 'critical' | 'high' | 'medium' | 'low';
-export type ImprovementCategory =
-  | 'database'
-  | 'cache'
-  | 'php'
-  | 'frontend'
-  | 'images'
-  | 'plugins'
-  | 'theme'
-  | 'server'
-  | 'search'
-  | 'tracking';
-
-export interface Improvement {
-  id: string;
-  title: string;
-  category: ImprovementCategory;
-  status: ImprovementStatus;
-  priority: ImprovementPriority;
-  expected_impact: string | null;
-  actual_impact: string | null;
-  note: string | null;
+  brand: string;
+  model: string;
+  year: number;
+  price: number;
+  body_type: BodyType;
+  fuel_type: FuelType;
+  transmission: Transmission;
+  mileage_km: number;
+  color: string;
+  horsepower: number;
+  engine_cc: number;
+  seats: number;
+  description: string | null;
+  image_url: string | null;
+  gallery: string[] | null;
+  is_featured: boolean;
+  is_sold: boolean;
+  condition_status: ConditionStatus;
+  features: string[] | null;
   created_at: string;
   updated_at: string;
 }
 
-export const PAGE_TYPE_LABELS: Record<PageType, string> = {
-  home: 'الرئيسية',
-  category: 'صفحة قسم',
-  product: 'صفحة منتج',
-  search: 'نتائج البحث',
-  checkout: 'الدفع',
-  cart: 'السلة',
-  account: 'حسابي',
+export const BODY_TYPE_LABELS: Record<BodyType, string> = {
+  sedan: 'سيدان',
+  coupe: 'كوبيه',
+  suv: 'دفع رباعي',
+  hatchback: 'هاتشباك',
+  convertible: 'كابورليه',
 };
 
-export const DEVICE_LABELS: Record<Device, string> = {
-  desktop: 'كمبيوتر',
-  mobile: 'جوال',
+export const FUEL_TYPE_LABELS: Record<FuelType, string> = {
+  petrol: 'بنزين',
+  diesel: 'ديزل',
+  electric: 'كهربائي',
+  hybrid: 'هجين',
 };
 
-export const TOOL_LABELS: Record<Tool, string> = {
-  gtmetrix: 'GTmetrix',
-  pagespeed: 'PageSpeed Insights',
-  lighthouse: 'Lighthouse',
-  devtools: 'Chrome DevTools',
-  manual: 'إدخال يدوي',
+export const TRANSMISSION_LABELS: Record<Transmission, string> = {
+  automatic: 'أوتوماتيك',
+  manual: 'يدوي',
 };
 
-export const CATEGORY_LABELS: Record<ImprovementCategory, string> = {
-  database: 'قاعدة البيانات',
-  cache: 'التخزين المؤقت',
-  php: 'PHP',
-  frontend: 'الواجهة',
-  images: 'الصور',
-  plugins: 'الإضافات',
-  theme: 'الثيم',
-  server: 'الخادم',
-  search: 'البحث',
-  tracking: 'التتبع',
+export const CONDITION_LABELS: Record<ConditionStatus, string> = {
+  new: 'جديدة',
+  used: 'مستعملة',
 };
 
-export const STATUS_LABELS: Record<ImprovementStatus, string> = {
-  pending: 'قيد الانتظار',
-  'in-progress': 'قيد التنفيذ',
-  done: 'تم',
-  skipped: 'متخطى',
-};
+export const BRANDS = [
+  'Lamborghini', 'Mercedes-Benz', 'BMW', 'Ferrari', 'Porsche',
+  'Genesis', 'Audi', 'Bentley',
+];
 
-export const PRIORITY_LABELS: Record<ImprovementPriority, string> = {
-  critical: 'حرجة',
-  high: 'عالية',
-  medium: 'متوسطة',
-  low: 'منخفضة',
-};
+export function formatPrice(price: number): string {
+  if (price >= 1000000) {
+    return `${(price / 1000000).toFixed(2)} مليون`;
+  }
+  return new Intl.NumberFormat('ar-EG').format(price);
+}
 
-export const TARGETS = {
-  ttfb_ms: 800,
-  lcp_ms: 2500,
-  cls: 0.1,
-  tbt_ms: 200,
-  fully_loaded_ms: 2500,
-  performance_score: 90,
-  structure_score: 95,
-};
+export function formatMileage(km: number): string {
+  if (km === 0) return '0 كم';
+  return new Intl.NumberFormat('ar-EG').format(km) + ' كم';
+}
